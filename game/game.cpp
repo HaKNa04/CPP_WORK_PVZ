@@ -24,7 +24,6 @@
 #pragma comment(lib,"winmm.lib")
 #pragma warning(disable:4996)
 
-
 #define SFML_STATIC
 //#include <SFML/Main.hpp>
 #include <SFML/Audio.hpp>
@@ -64,6 +63,8 @@
 
 	int is_not_store = 0;					//是否是存档内容1是，0不是
 	int sunshine = 100;						//阳光的数量
+	int sunshine_buffer = 0;				//阳光缓冲区
+	char sunshine_text[20];				    //阳光数量的文本
 	int curX, curY;							//当前选中植物，在移动过程中的位置
 	int curPlant;							//0:没有选中，1：选择了一个植物
 	int killCount;							//已经杀掉的僵尸个数
@@ -71,8 +72,6 @@
 	int gameStatus;							//游戏状态——对应枚举
 
 	/*****************************************************************************/
-
-
 	/************************************图片区*******************************/
 
 	IMAGE imgBg;						//表示背景图片
@@ -97,7 +96,7 @@ void updateWindow(PLANT* map, ZM* zms, BULLET* bullets, SUNSHINE* balls) {
 	drawPlants(PLANT_COUNT, curPlant, curX, curY, &imgBg, &imgBar, imgCards, imgZhiWu, map);
 
 	//显示阳光数量
-	showSunshineBallsCount(sunshine);
+	showSunshineBallsCount(sunshine_text);
 
 	//渲染僵尸
 	drawZM(imgZM, imgZMDead, imgZMEat, zms);
@@ -155,6 +154,13 @@ void updateGame(PLANT* map, ZM* zms, BULLET* bullets, SUNSHINE* balls) {
 	createSunshine(SUNSHINE_DOWN, SUNSHINE_PRODUCT, SUN_FLOWER, imgZhiWu, imgSunshineBall, map, balls);//创建阳光
 	updateSunshine(&sunshine, SUNSHINE_DOWN, SUNSHINE_GROUND, SUNSHINE_COLLECT, SUNSHINE_PRODUCT, balls);//更新阳光状态
 
+	if (sunshine != sunshine_buffer)
+	{
+		sunshine_buffer = sunshine;
+		sprintf_s(sunshine_text, sizeof(sunshine_text),
+			"%d", sunshine_buffer);//将整型数值改为字符类型（显示类型只能是字符类型）
+	}
+
 	createZM(zmCount, WIN_WIDTH, ZM_MAX, zms);//创建僵尸
 	updateZM(killCount, gameStatus, ZM_MAX, WIN, FAIL, zms);//更新僵尸状态
 
@@ -196,7 +202,8 @@ void startUI(PLANT* map, ZM* zms, BULLET* bullets, SUNSHINE* balls) {
 				break;
 			}
 		}
-		if (timer - video_timer > 5) {
+
+		if (timer - video_timer >10) {
 			video_timer = timer;
 			updateWindow(map, zms, bullets, balls);
 		}

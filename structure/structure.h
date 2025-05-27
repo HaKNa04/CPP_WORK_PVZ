@@ -4,9 +4,9 @@
 
 class vector2 {
 public:
-	vector2(int _x = 0, int _y = 0) :x(_x), y(_y) {}
+	vector2(float _x = 0, float _y = 0) :x(_x), y(_y) {}
 	vector2(int* data) :x(data[0]), y(data[1]) {}
-	long long x, y;
+	double x, y;
 
 	// 运算符重载
 	friend vector2 operator+(vector2 x, vector2 y);
@@ -47,12 +47,12 @@ inline void strExit(char* str) {
 }
 
 // 游戏对象基类（抽象类）
-class GameObject {
+class GameObject :public vector2{
 public:
-	GameObject(int x = 0, int y = 0) : x(x), y(y), frameIndex(0) {}
+	GameObject(float x = 0, float y = 0) : x(x), y(y), frameIndex(0) {}
 	virtual ~GameObject() = default;
 
-	float x, y;
+	double x, y;
 	int frameIndex;
 
 	// 纯虚函数：更新逻辑和渲染

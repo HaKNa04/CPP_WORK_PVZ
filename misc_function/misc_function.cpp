@@ -237,7 +237,6 @@ void UI() {
 	int flag = 0;
 	while (1) {
 
-
 		transparentimage3(NULL, 0, 0, &imgBg);
 		transparentimage3(NULL, 474, 75, flag ? &imgMenu1 : &imgMenu2);
 
@@ -262,13 +261,10 @@ void UI() {
 /**************************************物理逻辑区************************************/
 
 //显示阳光数量
-void showSunshineBallsCount(int sunshine) {
-	char scoreText[8];
-	sprintf_s(scoreText, sizeof(scoreText),
-		"%d", sunshine);//将整型数值改为字符类型（显示类型只能是字符类型）
-	int len = strlen(scoreText);
+void showSunshineBallsCount(char a[]) {
+	int len = strlen(a);
 	int count_position = 200 - len * 5;//使得阳光的数值显示始终居中。
-	outtextxy(count_position, 70, LPCTSTR(scoreText));//显示出阳光数
+	outtextxy(count_position, 70, LPCTSTR(a));//显示出阳光数
 }
 
 //碰撞检测
@@ -504,15 +500,14 @@ void viewScence(int xMin,
 void barsDown(int PLANT_COUNT, int imgBar_height,
 	IMAGE imgBar, IMAGE imgBg, IMAGE* imgCards) {
 
-	for (int y = -imgBar_height; y <= 0; y++) {
+	for (int y = -imgBar_height; y <= 0; y = y + 6) {
 
-		putimage(-100, 0, &imgBg);
-		putimage(160, y, &imgBar);
+		transparentimage3(NULL, -100, 0, &imgBg);
+		transparentimage3(NULL, 160, y, &imgBar);
 
 		for (int i = 0; i < PLANT_COUNT; i++) {
 			int x = 238 + i * 65;
-			y = 6 + y;
-			transparentimage3(NULL, x, y, &imgCards[i]);
+			transparentimage3(NULL, x, y + 6, &imgCards[i]);
 		}
 
 		FlushBatchDraw();
@@ -925,6 +920,7 @@ void createZM(int& zmCount, int WIN_WIDTH, int ZM_MAX,
 	static int zmFre = 200;
 	static int zmcount = 0;
 	zmcount++;
+
 	if (zmcount > zmFre) {
 		zmcount = 0;
 		zmFre = rand() % 30 + 200;

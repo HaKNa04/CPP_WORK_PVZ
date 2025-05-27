@@ -39,7 +39,7 @@ void UI();
 /**************************************物理逻辑区************************************/
 
 //显示阳光数量
-void showSunshineBallsCount(int sunshine);
+void showSunshineBallsCount(char a[]);
 
 //碰撞检测
 void collisionCheck(ZM* zms, BULLET* bullets, PLANT* map, const int CANNIBAL_FLOWER);

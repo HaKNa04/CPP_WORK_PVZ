@@ -24,7 +24,7 @@ void set() {
 void drawPlants(int PLANT_COUNT, int& curPlant, int& curX, int& curY,
 	IMAGE* imgBg, IMAGE* imgBar, IMAGE* imgCards, IMAGE* imgZhiWu[][20],
 	plant* map) {
-	putimage(-100, 0, imgBg);
+	transparentimage3(NULL, -100, 0, imgBg);
 	transparentimage3(NULL, 160, 0, imgBar);
 	for (int i = 0;i < PLANT_COUNT;i++) {
 		int x = 238 + i * 65;
