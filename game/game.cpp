@@ -279,7 +279,6 @@ STARTGAME:
 	startUI(map, zms, bullets, balls);
 }
 
-
 int main() {
 	/*********************************Í·½Úµã***********************************/
 
@@ -323,3 +322,4 @@ int main() {
 	system("pause");
 	return 0;
 }
+//test
